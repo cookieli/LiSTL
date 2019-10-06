@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lzx/CLionProjects/LiSTL/DeriveAndBase.h
+string
+-
+
+/home/lzx/CLionProjects/LiSTL/main.cpp
+iostream
+-
+vector.h
+/home/lzx/CLionProjects/LiSTL/vector.h
+vector
+-
+DeriveAndBase.h
+/home/lzx/CLionProjects/LiSTL/DeriveAndBase.h
+
+/home/lzx/CLionProjects/LiSTL/vector.cpp
+vector.h
+/home/lzx/CLionProjects/LiSTL/vector.h
+
+/home/lzx/CLionProjects/LiSTL/vector.h
+error.h
+-
+string
+-
+sstream
+-
+iostream
+-
+
