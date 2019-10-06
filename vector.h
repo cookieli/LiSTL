@@ -9,7 +9,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <tic.h>
+//#include <tic.h>
 
 /*
  * declaration for << and >>
@@ -57,6 +57,7 @@ public:
     bool equals(const Vector<ValueType> & vector) const;
 
     bool operator !=(const Vector &v2) const;
+    bool operator ==(const Vector &v2) const;
 
 private:
     ValueType *_elements;
@@ -85,6 +86,10 @@ public:
         vp(the_vec),
         index(idx){
 
+        }
+
+        bool operator ==(const iterator& rhs){
+            return vp == rhs.vp && index == rhs.index;
         }
 
         bool operator !=(const iterator& rhs){
@@ -269,8 +274,15 @@ bool Vector<ValueType> ::equals(const Vector<ValueType> &vector) const {
     if(size() != vector.size()){
         return false;
     }
+    int endIndex   = size();
 
+    for(int cursor = 0; cursor < endIndex; cursor++){
+        if (_elements[cursor] != vector._elements[cursor]){
+            return false;
+        }
+    }
 
+    return true;
 }
 
 /*
@@ -279,7 +291,14 @@ bool Vector<ValueType> ::equals(const Vector<ValueType> &vector) const {
 
 template <typename ValueType>
 bool Vector<ValueType>::operator!=(const Vector &v2) const {
+    return !equals(v2);
+}
 
+
+
+template <typename ValueType>
+bool Vector<ValueType>::operator==(const Vector &v2) const {
+    return equals(v2);
 }
 
 
