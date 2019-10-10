@@ -37,9 +37,13 @@ int main() {
    Vector<int> vec;
    vec.push_back(10);
    vec.push_back(16);
+   vec.push_back(33);
+   vec.push_back(55);
    for(auto it = vec.begin(); it != vec.end(); it++){
        cout << *it <<endl;
    }
+
+   cout << vec.contains(10) << endl;
 
    return 0;
 }

@@ -24,12 +24,40 @@ public:
 
     explicit Vector(int n, ValueType v = ValueType());
 
+    Vector(const Vector &src);
+
+
+
     virtual ~Vector();
 
 
+    /*
+     *Returns the element at index (size - 1) in this vector (without removing it)
+     * @throw ErrorException if vecot is empty
+     * @bigoh O(1)
+     * */
+    ValueType& back();
+
+
+    const ValueType& back() const;
+    void clear();
+    bool contains(const ValueType& value) const;
+    void ensureCapacity(int cap);
+    const ValueType& front() const;
+    int  indexOf(const ValueType& value) const;
+    int lastIndexOf(const ValueType& value) const;
     void add(const ValueType &value);
 
     void remove(int index);
+
+    ValueType removeFront();
+
+    ValueType removeBack();
+
+    void removeValue(const ValueType& value);
+
+
+    void deepCopy(const Vector &src);
 
     void checkIndex(int index, int min, int max, std::string prefix) const;
 
@@ -58,6 +86,10 @@ public:
 
     bool operator !=(const Vector &v2) const;
     bool operator ==(const Vector &v2) const;
+
+    Vector<ValueType>& operator =(const Vector &v2);
+
+
 
 private:
     ValueType *_elements;
@@ -143,6 +175,8 @@ Vector<ValueType>::Vector()
 }
 
 
+
+
 template<typename ValueType>
 Vector<ValueType>::Vector(int n, ValueType value)
         :_elements(nullptr),
@@ -160,9 +194,20 @@ Vector<ValueType>::Vector(int n, ValueType value)
 
 template<typename ValueType>
 Vector<ValueType>::~Vector() {
-    delete[] _elements;
-    _elements = nullptr;
+    if(_elements) {
+        delete[] _elements;
+        _elements = nullptr;
+    }
 }
+
+template<typename ValueType>
+Vector<ValueType>::Vector(const Vector &src) {
+    deepCopy(src);
+}
+
+
+
+
 
 template<typename ValueType>
 void Vector<ValueType>::add(const ValueType &value) {
@@ -174,6 +219,15 @@ void Vector<ValueType>::add(const ValueType &value) {
  * implementation for member function
  *
  * */
+template <typename ValueType>
+void Vector<ValueType>::deepCopy(const Vector<ValueType>& src) {
+    count = src.count;
+    _capacity = src.count;
+    _elements = (_capacity == 0)? nullptr:new ValueType[_capacity];
+    for(int i = 0; i < count; i++){
+        _elements[i] = src._elements[i];
+    }
+}
 template<typename ValueType>
 void Vector<ValueType>::checkIndex(int index, int min, int max, std::string prefix) const {
     if (index < min || index > max) {
@@ -209,6 +263,17 @@ void Vector<ValueType>::expandCapacity() {
     _elements = array;
 }
 
+template <typename ValueType>
+bool Vector<ValueType>::contains(const ValueType &value) const {
+    for(int i = 0; i < count; i++){
+        if(_elements[i] == value){
+            return true;
+        }
+    }
+    return false;
+}
+
+
 template<typename ValueType>
 void Vector<ValueType>::insert(int index, const ValueType &value) {
     checkIndex(index, 0, count, "insert");
@@ -227,6 +292,25 @@ void Vector<ValueType>::remove(int index) {
         _elements[i] = _elements[i + 1];
     }
     count--;
+}
+
+
+template <typename ValueType>
+int Vector<ValueType> ::indexOf(const ValueType &value) const {
+    for(int i = 0; i < count; i++){
+        if(_elements[i] == value)
+            return i;
+    }
+    return -1;
+}
+template <typename ValueType>
+int Vector<ValueType>::lastIndexOf(const ValueType &value) const {
+    for(int i = count - 1; i >= 0; i--){
+        if(_elements[i] == value){
+            return _elements[i];
+        }
+    }
+    return -1;
 }
 
 
@@ -301,5 +385,9 @@ bool Vector<ValueType>::operator==(const Vector &v2) const {
     return equals(v2);
 }
 
+template <typename ValueType>
+Vector<ValueType>&  Vector<ValueType>::operator=(const Vector &v2) {
+
+}
 
 #endif //VECTOR_VECTOR_H
